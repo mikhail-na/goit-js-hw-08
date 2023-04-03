@@ -31,25 +31,31 @@ import throttle from 'lodash.throttle';
 
 const iframe = document.querySelector('iframe');
 const player = new Player(iframe);
+const KEY = 'videoplayer-current-time';
 
 player.on('play', function (data) {
   const seconds = localStorage.getItem(data.seconds);
-  // if (seconds !== null) { 
+  // if (seconds !== null) {
   //    player.setCurrentTime(lo);
   // };
-  
 
-   player.setCurrentTime(JSON.parse(localStorage.getItem(KEY)) || 0);
+  player.setCurrentTime(JSON.parse(localStorage.getItem(KEY))); //! <======== 0 прибрав
   // console.log('played the handstick video!');
 });
 
-const KEY = 'videoplayer-current-time';
-
-
 function onTimeUpdate(data) {
   // data is an object containing properties specific to that event
-  localStorage.setItem(KEY, data.seconds);
-  console.log(data);
+  //! Переглянув)) ВАШ код робить абсолютно те саме
+
+  if (data.seconds > 0) {
+    localStorage.setItem(KEY, data.seconds);
+    console.log(data);
+  }
+
+  //! ===========================================
+
+  // localStorage.setItem(KEY, data.seconds); //!  <======= теж працює
+  // console.log(data);
 }
 
 player.on('timeupdate', throttle(onTimeUpdate, 1000));
