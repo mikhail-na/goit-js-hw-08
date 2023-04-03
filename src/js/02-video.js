@@ -36,10 +36,10 @@ const KEY = 'videoplayer-current-time';
 player.setCurrentTime(localStorage.getItem(KEY));
 
 
-function onTimeUpdate(data) {
+function onTimeUpdate({seconds} = 0) {
   // data is an object containing properties specific to that event
-  localStorage.setItem(KEY, data.seconds);
-  console.log(data);
+  localStorage.setItem(KEY, seconds);
+  console.log(seconds);
 }
 
 player.on('timeupdate', throttle(onTimeUpdate, 1000));
